@@ -41,14 +41,20 @@ namespace InterviewProj.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateOrder(Orders order)
         {
-            _context.Orders.Add(order);
+            try
+            {
+                _context.Orders.Add(order);
 
-            await _context.SaveChangesAsync();
+                await _context.SaveChangesAsync();
 
-            return CreatedAtAction(
-                nameof(GetOrders),
-                new { id = order.OrderId },
-                order);
+                return CreatedAtAction(
+                    nameof(GetOrders),
+                    new { id = order.OrderId },
+                    order);
+            }
+            catch (Exception ex) {
+                return null;
+            }
         }
 
         [HttpPut("{id}")]
